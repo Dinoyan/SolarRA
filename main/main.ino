@@ -16,7 +16,8 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
   pinMode(6, OUTPUT); //Configure PIN 6 as Trigger for the HEATER
-  pinMode(7, OUTPUT); //Configure PIN 7 as Trigger for the MOTOR 
+  pinMode(7, OUTPUT); //Configure PIN 7 as Trigger for the CIRCULATOR MOTOR 
+  pinMode(5, OUTPUT); //Configure PIN 5 as Trigger for the AERATOR MOTOR 
   SD.begin(chipSelect);
   File logFile = SD.open("logger.txt", FILE_WRITE);
 
@@ -59,10 +60,12 @@ float getAirTemp() {
 
 void Turn_Heater_ON() {
   digitalWrite(6, HIGH); //Trigger the signal for HEATER ON
-  digitalWrite(7, LOW); //Trigger the signal for MOTOR OFF
+  digitalWrite(7, LOW); //Trigger the signal for CIRCULATOR MOTOR OFF
+  digitalWrite(5, LOW); //Trigger the signal for AERATOR MOTOR OFF
 }
 
 void Turn_Heater_OFF() {
   digitalWrite(6, LOW); //Trigger the signal for HEATER OFF
-  digitalWrite(7, HIGH); //Trigger the signal for MOTOR ON
+  digitalWrite(7, HIGH); //Trigger the signal for CIRCULATOR MOTOR ON
+  digitalWrite(5, LOW); //Trigger the signal for AERATOR MOTOR ON
 }
