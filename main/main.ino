@@ -5,11 +5,13 @@
 
 #define WATER_TEMP 5
 const int chipSelect = 4;
-const int Min_Temp = 5; //Arbitrary value in which the heater is going to turn ON
-const int Max_Temp = 8; //Arbitrary value in which the heater is going to turn OFF
+// arbitrary value in which the heater is going to turn ON
+const int Min_Temp = 5; 
+// arbitrary value in which the heater is going to turn OFF
+const int Max_Temp = 8; 
 
 OneWire oneWire(WATER_TEMP);
-// BUS
+
 DallasTemperature sensors(&oneWire);
 
 File logFile;
@@ -20,9 +22,12 @@ void setup() {
   Serial.println("Init\n");
   
   Serial.begin(9600);
-  pinMode(6, OUTPUT); //Configure PIN 6 as Trigger for the HEATER
-  pinMode(7, OUTPUT); //Configure PIN 7 as Trigger for the CIRCULATOR MOTOR 
-  pinMode(5, OUTPUT); //Configure PIN 5 as Trigger for the AERATOR MOTOR 
+  // configure PIN 6 as Trigger for the HEATER
+  pinMode(6, OUTPUT);
+  // configure PIN 7 as Trigger for the CIRCULATOR MOTOR 
+  pinMode(7, OUTPUT); 
+  // configure PIN 5 as Trigger for the AERATOR MOTOR 
+  pinMode(5, OUTPUT); 
   SD.begin(chipSelect);
   
   logFile = SD.open("logger.txt", FILE_WRITE);
