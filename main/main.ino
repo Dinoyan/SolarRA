@@ -1,7 +1,7 @@
 #include <SPI.h>
 #include <SD.h>
 #include <OneWire.h>
-#include <DallasTemperature.h>
+#include "DallasTemperature.h"
 
 #define WATER_TEMP 5
 const int chipSelect = 4;
@@ -12,6 +12,8 @@ OneWire oneWire(WATER_TEMP);
 // BUS
 DallasTemperature sensors(&oneWire);
 
+File logFile;
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
@@ -19,8 +21,8 @@ void setup() {
   pinMode(7, OUTPUT); //Configure PIN 7 as Trigger for the CIRCULATOR MOTOR 
   pinMode(5, OUTPUT); //Configure PIN 5 as Trigger for the AERATOR MOTOR 
   SD.begin(chipSelect);
-  File logFile = SD.open("logger.txt", FILE_WRITE);
-
+  
+  logFile = SD.open("logger.txt", FILE_WRITE);
   if (!logFile) {
     Serial.println("SD Failed");
   }
@@ -40,7 +42,15 @@ void loop() {
 }
 
 void logData(String data) {
-  logFile.write(data);
+  if (logFile) {
+     logFile.println(data);
+  } else {
+    Serial.println("SD Failed to write");
+  }
+}
+
+void readData() {
+  
 }
 
 float getWaterTemp() {
