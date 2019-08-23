@@ -3,14 +3,14 @@
 #include <OneWire.h>
 #include "DallasTemperature.h"
 
-#define WATER_TEMP 5
+#define WATER_TEMPSENSOR 8
 const int chipSelect = 4;
 // arbitrary value in which the heater is going to turn ON
-const int Min_Temp = 5; 
+const int Min_Temp = 29; 
 // arbitrary value in which the heater is going to turn OFF
-const int Max_Temp = 8; 
+const int Max_Temp = 30; 
 
-OneWire oneWire(WATER_TEMP);
+OneWire oneWire(WATER_TEMPSENSOR);
 
 DallasTemperature sensors(&oneWire);
 
@@ -23,9 +23,9 @@ void setup() {
   
   Serial.begin(9600);
   // configure PIN 6 as Trigger for the HEATER
-  pinMode(6, OUTPUT);
-  // configure PIN 7 as Trigger for the CIRCULATOR MOTOR 
   pinMode(7, OUTPUT); 
+  // configure PIN 7 as Trigger for the CIRCULATOR MOTOR 
+  pinMode(6, OUTPUT);
   // configure PIN 5 as Trigger for the AERATOR MOTOR 
   pinMode(5, OUTPUT); 
   SD.begin(chipSelect);
@@ -47,6 +47,8 @@ void loop() {
   } else if (celsius >= Max_Temp) {
     turnHeaterOFF();
   }
+
+  Serial.println(celsius);
 }
 
 void logData(String data) {
@@ -90,18 +92,18 @@ float getAirTemp() {
 
 void turnHeaterON() {
   // trigger the signal for HEATER ON
-  digitalWrite(6, HIGH); 
+  digitalWrite(7, HIGH); 
   // trigger the signal for CIRCULATOR MOTOR OFF
-  digitalWrite(7, LOW);
+  digitalWrite(6, LOW);
   // trigger the signal for AERATOR MOTOR OFF
   digitalWrite(5, LOW); 
 }
 
 void turnHeaterOFF() {
   // trigger the signal for HEATER OFF
-  digitalWrite(6, LOW); 
+  digitalWrite(7, LOW); 
   // trigger the signal for CIRCULATOR MOTOR ON
-  digitalWrite(7, HIGH); 
+  digitalWrite(6, HIGH); 
   // trigger the signal for AERATOR MOTOR ON
-  digitalWrite(5, LOW); 
+  digitalWrite(5, HIGH); 
 }
