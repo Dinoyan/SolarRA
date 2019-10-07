@@ -4,7 +4,13 @@
 #include "DallasTemperature.h"
 
 #define WATER_TEMPSENSOR 8
-const int chipSelect = 4;
+
+// SD Card: 
+// SCK 13
+// MISO 12
+// MOSI 11
+// VCC 5V
+const int chipSelect = 10;
 // arbitrary value in which the heater is going to turn ON
 const int Min_Temp = 29; 
 // arbitrary value in which the heater is going to turn OFF
